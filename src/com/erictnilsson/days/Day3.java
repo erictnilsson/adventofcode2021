@@ -36,21 +36,20 @@ public class Day3 {
     }
 
     private int findRating(final String[] input, final int i, final Function<Integer, Character> rule) {
-        if (input.length == 1)
-            return Integer.parseInt(input[0], 2);
-        else {
-            int zeroesCounter = Arrays
-                    .stream(input)
-                    .mapToInt(str -> ((str.charAt(i) - '0') == 0 ? 1 : -1))
-                    .sum();
+        if (input.length == 1) return Integer.parseInt(input[0], 2);
 
-            char bit = rule.apply(zeroesCounter);
-            String[] output = Arrays
-                    .stream(input)
-                    .filter(str -> str.charAt(i) == bit)
-                    .toArray(String[]::new);
+        int zeroesCounter = Arrays
+                .stream(input)
+                .mapToInt(str -> ((str.charAt(i) - '0') == 0 ? 1 : -1)) // ASCII trickery to get the literal int value of char
+                .sum();
 
-            return findRating(output, i + 1, rule);
-        }
+        char bit = rule.apply(zeroesCounter);
+        String[] output = Arrays
+                .stream(input)
+                .filter(str -> str.charAt(i) == bit)
+                .toArray(String[]::new);
+
+        return findRating(output, i + 1, rule);
+
     }
 }
