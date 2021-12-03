@@ -8,10 +8,10 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         InputReader reader = new InputReader();
-        var input = reader.readInput("day1");
-        Day1 day1 = new Day1();
-        day1.PuzzleOne(input);
+        var input = reader.readInput("day3");
+        var day3 = new Day3();
 
-        day1.PuzzleTwo(input);
+        day3.PuzzleOne(input);
+        day3.PuzzleTwo(input.toArray(new String[0]));
     }
 }
