@@ -44,12 +44,12 @@ public class Day3 {
                 .sum();
 
         char bit = rule.apply(zeroesCounter);
+
         String[] output = Arrays
                 .stream(input)
                 .filter(str -> str.charAt(i) == bit)
                 .toArray(String[]::new);
 
         return findRating(output, i + 1, rule);
-
     }
 }
