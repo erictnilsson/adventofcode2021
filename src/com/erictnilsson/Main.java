@@ -1,6 +1,6 @@
 package com.erictnilsson;
 
-import com.erictnilsson.day1.*;
+import com.erictnilsson.days.*;
 
 import java.io.IOException;
 

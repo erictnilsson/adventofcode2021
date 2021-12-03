@@ -1,4 +1,4 @@
-package com.erictnilsson.day1;
+package com.erictnilsson.days;
 
 import java.util.List;
 
