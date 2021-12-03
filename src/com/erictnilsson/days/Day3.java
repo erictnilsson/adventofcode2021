@@ -14,12 +14,13 @@ public class Day3 {
         for (var str : input) {
             for (int i = 0; i < str.length(); i++) {
                 var bit = str.charAt(i) - '0'; // ASCII trickery to get the literal int value of char
-                arr[i] += (bit == 0) ? -1 : 1;
+                arr[i] += (bit == 0) ? -1 : 1; // number of 1s per position
             }
         }
-        for (int i = 0; i < arr.length; i++) {
-            gammaStr.append((arr[i] > 0) ? "1" : "0");
-            epsilonStr.append((arr[i] > 0) ? "0" : "1");
+
+        for (int j : arr) {
+            gammaStr.append((j > 0) ? "1" : "0");
+            epsilonStr.append((j > 0) ? "0" : "1");
         }
 
         int gamma = Integer.parseInt(gammaStr.toString(), 2);
