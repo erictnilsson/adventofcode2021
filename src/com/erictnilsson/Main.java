@@ -11,10 +11,6 @@ public class Main {
         var input = reader.readInput("day4");
 
         var day4 = new Day4();
-        day4.PuzzleOne(input);
-
-        var day42 = new Day42();
-        // day42.puzzleOne(input);
-        day42.puzzleTwo(input);
+        day4.puzzleOne(input);
     }
 }

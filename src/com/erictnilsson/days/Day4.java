@@ -8,78 +8,81 @@ import java.util.stream.Collectors;
 
 public class Day4 {
 
-    public void PuzzleOne(List<String> input) {
-        input = input.stream().filter(x -> !x.isBlank()).collect(Collectors.toList());
-        var numbers = input.remove(0).split(",");
-        var boards = createBoards(input);
-        var results = new ArrayList<Result>();
-        for (var board : boards) {
-            var result = play(board, numbers);
-            results.add(result);
+    private record Result(int winningRound, int sum, int winningNumber) {
+    }
+
+    private int[] getCallingNumbers(String numbers) {
+        return Arrays.stream(numbers.split(",")).mapToInt(Integer::valueOf).toArray();
+    }
+
+    public void puzzleOne(List<String> input) {
+        List<Result> results = play(input);
+        Result winner = results.stream().min(Comparator.comparingInt(x -> x.winningRound)).get();
+
+        System.out.println(winner.sum * winner.winningNumber);
+    }
+
+    public void puzzleTwo(List<String> input) {
+        List<Result> results = play(input);
+        Result loser = results.stream().max(Comparator.comparingInt(x -> x.winningRound)).get();
+
+        System.out.println(loser.sum * loser.winningNumber);
+    }
+
+    private List<Result> play(List<String> input) {
+        int[] callingNumbers = getCallingNumbers(input.remove(0));
+        List<Result> results = new ArrayList<>();
+
+        int[][] board = new int[5][5];
+        for (int i = 1; i <= input.size(); i++) {
+            if (i == input.size() || input.get(i).isBlank()) {
+                var result = playBoard(board, callingNumbers);
+                results.add(result);
+
+                board = new int[5][5]; // reset board
+            } else {
+                int[] row = Arrays
+                        .stream(input.get(i).split(" "))
+                        .filter(x -> !x.isBlank())
+                        .mapToInt(Integer::valueOf)
+                        .toArray();
+
+                board[(i - 1) % 5] = row;
+            }
         }
-
-        var min = results.stream().min(Comparator.comparingInt(x -> x.round)).get();
-        System.out.println(min.sum * min.winningNumber);
-        System.out.println("hej");
+        return results;
     }
 
-    record Result(int round, int sum, int winningNumber) {
-    }
+    private Result playBoard(int[][] board, int[] callingNumbers) {
+        int sum = Arrays.stream(board)
+                .flatMapToInt(Arrays::stream)
+                .sum();
 
-    private Result play(String[][] board, String[] numbers) {
-        for (int n = 0; n < numbers.length; n++) {
-            for (int i = 0; i < board.length; i++) {
-                for (int j = 0; j < board[i].length; j++) {
-                    if (board[i][j].equals(numbers[n])) {
-                        board[i][j] = "x";
-                        boolean hasWon = checkIfWon(board);
-                        if (hasWon) {
-                            int sum = getSum(board);
-                            int val = Integer.valueOf(numbers[n]);
-                            return new Result(n, sum, val);
-                        }
+        for (int i = 0; i < callingNumbers.length; i++) {
+            for (int row = 0; row < board.length; row++) {
+                for (int col = 0; col < board[row].length; col++) {
+                    // mark
+                    if (board[row][col] == callingNumbers[i]) {
+                        sum -= board[row][col]; // subtract of board's sum
+                        board[row][col] = -1; // mark cell
                     }
+
+                    // check winning
+                    if (rowWon(board[row]) || colWon(board, col)) {
+                        return new Result(i, sum, callingNumbers[i]);
+                    }
+
                 }
             }
         }
         return null;
     }
 
-    private int getSum(String[][] board) {
-        return Arrays.stream(board).map(x -> Arrays.stream(x).filter(y -> !y.equals("x")).mapToInt(Integer::valueOf).sum()).mapToInt(Integer::valueOf).sum();
+    private boolean rowWon(int[] row) {
+        return Arrays.stream(row).noneMatch(x -> x > 0);
     }
 
-    private boolean checkIfWon(String[][] board) {
-        for (int i = 0; i < board.length; i++) {
-            int rowX = 0;
-            for (int j = 0; j < board[i].length; j++) {
-                if (board[i][j].equals("x")) {
-                    rowX++;
-                    int colX = 0;
-                    for (int foo = i + 1; foo < board.length; foo++) {
-                        if (board[foo][j].equals("x")) colX++;
-                    }
-                    if (colX == 5) return true;
-                }
-            }
-            if (rowX == 5) return true;
-        }
-        return false;
-    }
-
-    private List<String[][]> createBoards(List<String> input) {
-        List<String[][]> boards = new ArrayList<>();
-        String[][] board = new String[5][5];
-        for (int i = 0; i < input.size(); i++) {
-            var row = Arrays.stream(input.get(i).split(" ")).filter(x -> !x.isBlank()).toArray(String[]::new);
-            board[i % 5] = row;
-
-            if ((i + 1) % 5 == 0) {
-                boards.add(board);
-                board = new String[5][5];
-            }
-
-        }
-        return boards;
+    private boolean colWon(int[][] board, int col) {
+        return Arrays.stream(board).map(x -> x[col]).noneMatch(x -> x > 0);
     }
 }
