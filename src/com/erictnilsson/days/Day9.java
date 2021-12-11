@@ -1,9 +1,11 @@
 package com.erictnilsson.days;
 
+import com.erictnilsson.IDay;
+
 import java.util.Arrays;
 import java.util.List;
 
-public class Day9 {
+public class Day9 implements IDay {
     private int[][] heightMap;
 
     public void puzzleOne(List<String> input) {
@@ -16,6 +18,11 @@ public class Day9 {
                     riskLevel += heightMap[i][j] + 1;
 
         System.out.println(riskLevel);
+    }
+
+    @Override
+    public void puzzleTwo(List<String> input) {
+
     }
 
     private boolean lookLeft(int i, int j) {

@@ -1,11 +1,13 @@
 package com.erictnilsson.days;
 
+import com.erictnilsson.IDay;
+
 import java.util.List;
 import java.util.Stack;
 
-public class Day10 {
+public class Day10 implements IDay {
 
-    public void puzzleOne(List<String> input) {
+    public void puzzleOne(List<String> input){
         var score = 0;
         for (var line : input) {
             var stack = new Stack<>();
@@ -21,6 +23,11 @@ public class Day10 {
             }
         }
         System.out.println(score);
+    }
+
+    @Override
+    public void puzzleTwo(List<String> input) {
+
     }
 
     private int getScore(String c) {

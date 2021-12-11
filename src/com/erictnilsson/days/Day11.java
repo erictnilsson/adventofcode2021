@@ -9,14 +9,6 @@ import java.util.List;
 public class Day11 implements IDay {
 
     private record Coordinate(int i, int j) {
-        @Override
-        public boolean equals(Object obj) {
-            if (obj instanceof Coordinate) {
-                var c = (Coordinate) obj;
-                return c.i == this.i && c.j == this.j;
-            }
-            return false;
-        }
     }
 
     @Override
