@@ -8,10 +8,9 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         InputReader reader = new InputReader();
-        var input = reader.readInput("day6");
-        var day6 = new Day6();
+        var input = reader.readInput("day7");
+        var day7 = new Day7();
 
-        day6.puzzleOne(input);
-        day6.puzzleTwo(input);
+        day7.puzzleOne(input.get(0));
     }
 }
