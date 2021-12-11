@@ -14,7 +14,7 @@ public class Day9 {
             for (int j = 0; j < heightMap[i].length; j++)
                 if (lookLeft(i, j) && lookUp(i, j) && lookRight(i, j) && lookDown(i, j))
                     riskLevel += heightMap[i][j] + 1;
-        
+
         System.out.println(riskLevel);
     }
 
