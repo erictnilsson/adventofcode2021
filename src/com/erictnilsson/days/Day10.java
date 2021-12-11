@@ -8,7 +8,7 @@ public class Day10 {
     public void puzzleOne(List<String> input) {
         var score = 0;
         for (var line : input) {
-            Stack<String> stack = new Stack<>();
+            var stack = new Stack<>();
             var chars = line.split("");
             for (var c : chars) {
                 switch (c) {
